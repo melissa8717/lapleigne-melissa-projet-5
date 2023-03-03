@@ -58,4 +58,22 @@ public class ParkingServiceTest {
         verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
     }
 
+    @Test
+    public void testProcessIncomingVehicle(){
+
+    }
+    @Test
+    public void processExitingVehicleTestUnableUpdate(){
+
+    }
+
+    @Test
+    public void testGetNextParkingNumberIfAvailable(){
+
+    }
+    @Test
+    public void testGetNextParkingNumberIfAvailableParkingNumberWrongArgument(){
+        
+    }
+
 }

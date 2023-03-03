@@ -1,5 +1,10 @@
 package com.parkit.parkingsystem.model;
 
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -26,6 +31,8 @@ public class Ticket {
     public void setParkingSpot(ParkingSpot parkingSpot) {
         this.parkingSpot = parkingSpot;
     }
+
+    
 
     public String getVehicleRegNumber() {
         return vehicleRegNumber;
@@ -59,3 +66,5 @@ public class Ticket {
         this.outTime = outTime;
     }
 }
+
+
