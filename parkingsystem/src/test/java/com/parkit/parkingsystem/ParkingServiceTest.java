@@ -29,6 +29,13 @@ public class ParkingServiceTest {
     private static ParkingSpotDAO parkingSpotDAO;
     @Mock
     private static TicketDAO ticketDAO;
+    @Mock
+    private static Ticket ticket;
+    @Mock
+    private static ParkingType parkingType;
+    @Mock
+    private static ParkingSpot parkingSpot;
+    
 
     @BeforeEach
     private void setUpPerTest() {
@@ -54,26 +61,56 @@ public class ParkingServiceTest {
 
     @Test
     public void processExitingVehicleTest(){
+        String vehicleRegNumber = "ABCDEF";
+        Ticket ticket = new Ticket();
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
+
         parkingService.processExitingVehicle();
-        verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
+        ticket.setInTime(new Date(System.currentTimeMillis() - (60*60*1000)));
+        ticket.setParkingSpot(parkingSpot);
+        ticket.setVehicleRegNumber("ABCDEF");
+        when(ticketDAO.getTicket(anyString())).thenReturn(ticket);
+        when(ticketDAO.updateTicket(any(Ticket.class))).thenReturn(true);
+         if(ticketDAO.getNbTicket(vehicleRegNumber) > 1){
+            when(ticketDAO.getTicket(anyString())).thenReturn(ticket);
+            verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
+        }
+        else{
+            when(ticketDAO.getTicket(anyString())).thenReturn(ticket);
+            verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
+
+            }
     }
 
     @Test
     public void testProcessIncomingVehicle(){
-
+        parkingService.processIncomingVehicle();
     }
     @Test
     public void processExitingVehicleTestUnableUpdate(){
-
+        if(ticketDAO.updateTicket(ticket) == false){
+            throw  new RuntimeException("Failed to update ticket when process exiting");
+        }
     }
 
     @Test
     public void testGetNextParkingNumberIfAvailable(){
-
+        parkingService.getNextParkingNumberIfAvailable();
+        parkingType = ParkingType.CAR;
+        parkingSpot = new ParkingSpot(1,parkingType, true);
+    }
+    @Test
+    public void testGetNextParkingNumberIfAvailableParkingNumberNotFound(){
+        parkingService.getNextParkingNumberIfAvailable();
+        parkingType = ParkingType.CAR;
+        parkingSpot = new ParkingSpot(0,parkingType, true);
+   
     }
     @Test
     public void testGetNextParkingNumberIfAvailableParkingNumberWrongArgument(){
-        
+        parkingService.getNextParkingNumberIfAvailable();
+        parkingSpot = new ParkingSpot(1,null, true); 
     }
+    
 
 }
