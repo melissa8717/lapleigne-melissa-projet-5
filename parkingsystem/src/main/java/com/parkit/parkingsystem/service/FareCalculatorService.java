@@ -19,11 +19,11 @@ public class FareCalculatorService {
         long intHour = ticket.getInTime().getTime();
         long outHour = ticket.getOutTime().getTime();
         long durationSecond = ((outHour - intHour )/ 1000 );
-        float durationMSecond = (float)durationSecond/ 60;
-        float duration = durationMSecond / 60;
+        float durationMinute = (float)durationSecond/ 60;
+        float duration = durationMinute / 60;
         double discountPrice = 5 / 100;
 
-        if(duration < 30){
+        if(duration < 0.5){
           
            ticket.setPrice(0);
            System.out.println("moins de 30");
