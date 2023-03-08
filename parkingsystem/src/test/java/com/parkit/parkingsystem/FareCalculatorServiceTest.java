@@ -53,9 +53,6 @@ public class FareCalculatorServiceTest {
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
         fareCalculatorService.calculateFare(ticket,false);
-        System.out.println("prix du ticket"+ticket.getPrice());
-        System.out.println("heure mot"+
-        Fare.BIKE_RATE_PER_HOUR);
         assertEquals(ticket.getPrice(), Fare.BIKE_RATE_PER_HOUR);
     }
 

@@ -26,12 +26,9 @@ public class FareCalculatorService {
         if(duration < 0.5){
           
            ticket.setPrice(0);
-           System.out.println("moins de 30");
 
         }else{
-          System.out.println("plus de 30");
             if(discount == true ){
-        System.out.println("discount est vrai");
                 switch (ticket.getParkingSpot().getParkingType()){
                     case CAR: {
                         ticket.setPrice((duration * Fare.CAR_RATE_PER_HOUR)- discountPrice);
@@ -44,7 +41,6 @@ public class FareCalculatorService {
                     default: throw new IllegalArgumentException("Unkown Parking Type");
                 }
             }else{
-System.out.println("discount est faux");
                switch (ticket.getParkingSpot().getParkingType()){
                     case CAR: {
                         ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR);
@@ -57,7 +53,6 @@ System.out.println("discount est faux");
                     default: throw new IllegalArgumentException("Unkown Parking Type");
                 } 
             }
-            System.out.println("je passe dans rien");
         }
     }
 

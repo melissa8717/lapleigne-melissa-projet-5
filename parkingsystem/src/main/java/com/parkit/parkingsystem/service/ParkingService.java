@@ -73,8 +73,6 @@ public class ParkingService {
             }else{
                 throw new Exception("Error fetching parking number from DB. Parking slots might be full");
             }
-        }catch(IllegalArgumentException ie){
-            logger.error("Error parsing user input for type of vehicle", ie);
         }catch(Exception e){
             logger.error("Error fetching next available parking slot", e);
         }
