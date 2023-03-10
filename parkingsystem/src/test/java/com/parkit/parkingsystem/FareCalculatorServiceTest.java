@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.*;
 
+
 public class FareCalculatorServiceTest {
 
     private static FareCalculatorService fareCalculatorService;
@@ -163,16 +164,16 @@ public class FareCalculatorServiceTest {
         Date inTime = new Date();
         inTime.setTime( System.currentTimeMillis() - (  60 * 60 * 1000) );
         Date outTime = new Date();
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,true);
 
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
-        fareCalculatorService.calculateFare(ticket,false);
+        fareCalculatorService.calculateFare(ticket,true);
         long total = outTime.getTime() - inTime.getTime();
         long durationMinutes = (total/ 1000 );
         long duration = durationMinutes/60;
-        double discountPrice = ticket.getPrice() - (5 / 100);
+        double discountPrice = ticket.getPrice() - (5 / 100)*ticket.getPrice();
         if(duration > 0.5){
            assertEquals( (Fare.CAR_RATE_PER_HOUR) , discountPrice);
         }
@@ -180,6 +181,28 @@ public class FareCalculatorServiceTest {
            assertEquals( (Fare.CAR_RATE_PER_HOUR) , ticket.getPrice());
         }
     }
-    
+
+    @Test
+    public void calculateFareBikeWithDiscount(){
+        Date inTime = new Date();
+        inTime.setTime( System.currentTimeMillis() - (  60 * 60 * 1000) );
+        Date outTime = new Date();
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE,true);
+
+        ticket.setInTime(inTime);
+        ticket.setOutTime(outTime);
+        ticket.setParkingSpot(parkingSpot);
+        fareCalculatorService.calculateFare(ticket,true);
+        long total = outTime.getTime() - inTime.getTime();
+        long durationMinutes = (total/ 1000 );
+        long duration = durationMinutes/60;
+        double discountPrice = ticket.getPrice() - (5 / 100)*ticket.getPrice();
+        if(duration > 0.5){
+           assertEquals( (Fare.BIKE_RATE_PER_HOUR) , discountPrice);
+        }
+        else{
+           assertEquals( (Fare.BIKE_RATE_PER_HOUR) , ticket.getPrice());
+        }
+    }
 
 }
