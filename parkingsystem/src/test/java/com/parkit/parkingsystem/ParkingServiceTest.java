@@ -81,6 +81,7 @@ public class ParkingServiceTest {
     public void testProcessIncomingVehicle(){
         parkingService.processIncomingVehicle();
     }
+
     @Test
     public void processExitingVehicleTestUnableUpdate(){
         try{
@@ -99,6 +100,7 @@ public class ParkingServiceTest {
         parkingService.getNextParkingNumberIfAvailable();
         parkingSpot = new ParkingSpot(1,ParkingType.CAR, true);
     }
+    
     @Test
     public void testGetNextParkingNumberIfAvailableParkingNumberNotFound(){
         parkingService.getNextParkingNumberIfAvailable();

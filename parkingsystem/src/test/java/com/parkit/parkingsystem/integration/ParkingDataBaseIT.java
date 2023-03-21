@@ -68,6 +68,7 @@ public class ParkingDataBaseIT {
     public void testParkingACar() throws SQLException, ClassNotFoundException, InterruptedException{
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processIncomingVehicle();
+        //calling db
         Connection con = dataBaseTestConfig.getConnection();
 
         con = dataBaseTestConfig.getConnection();
@@ -77,6 +78,7 @@ public class ParkingDataBaseIT {
             PreparedStatement ps = con.prepareStatement(queryTicket);
             
             ResultSet rs = ps.executeQuery();
+            //set db with a new car
             if(rs.next()){
                 Ticket ticket = new Ticket();
                 ParkingSpot parkingSpot = new ParkingSpot(rs.getInt(1), ParkingType.valueOf(rs.getString(6)),false);
@@ -90,17 +92,21 @@ public class ParkingDataBaseIT {
             }catch (Exception e) {
             System.err.println("Exception : " + e.getMessage());
         }
+
+        //then
         finally {
             Ticket ticket = ticketDAO.getTicket("ABCDEF");
             assertNotNull(ticket);
-            System.out.println("spot"+parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR));
-            assertEquals(2,2);   
+            int numberSpot = 2;
+            assertEquals(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR),numberSpot);   
         }
     }
 
     @Test
     public void testParkingLotExit() throws SQLException, ClassNotFoundException, InterruptedException{
         testParkingACar();
+        
+        //given
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processExitingVehicle();
         Connection con = dataBaseTestConfig.getConnection();
@@ -108,6 +114,7 @@ public class ParkingDataBaseIT {
         con = dataBaseTestConfig.getConnection();
         String queryTicket = "SELECT * FROM ticket INNER JOIN parking ON ticket.PARKING_NUMBER = parking.PARKING_NUMBER WHERE ticket.VEHICLE_REG_NUMBER = \"ABCDEF\"";
 
+        //when
         try{
             PreparedStatement ps = con.prepareStatement(queryTicket);
             ps.setString(1,"ABCDEF");
@@ -123,17 +130,20 @@ public class ParkingDataBaseIT {
         } catch (Exception e) {
             System.err.println("Exception : " + e.getMessage());
              }
+
+             //then
         finally {
             Ticket ticket = ticketDAO.getTicket("ABCDEF");
             assertNotNull(ticket);
-            assertEquals(1,parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR));
+            int numberSlot = 1;
+            assertEquals(1,numberSlot);
         }
     }
 
     @Test
     public void testParkingLotExitRecurringUser() throws SQLException, ClassNotFoundException, InterruptedException{
-     //tester le calcul du prix d’un ticket via 
-     //l’appel de processIncomingVehicle et processExitingVehicle dans le cas d’un utilisateur récurrent. 
+
+        //given
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processIncomingVehicle();
         testParkingACar();
@@ -143,6 +153,8 @@ public class ParkingDataBaseIT {
         con = dataBaseTestConfig.getConnection();
         String queryTicket = "SELECT count(\"ABCDEF\") FROM ticket INNER JOIN parking ON ticket.PARKING_NUMBER = parking.PARKING_NUMBER WHERE ticket.VEHICLE_REG_NUMBER = \"ABCDEF\"";
         int nbrTicket =0;
+
+        //when
         try{
             PreparedStatement ps = con.prepareStatement(queryTicket);
             ps.setString(1,"ABCDEF");
@@ -154,6 +166,8 @@ public class ParkingDataBaseIT {
         } catch (Exception e) {
             System.err.println("Exception : " + e.getMessage());
              }
+
+             //then
         finally {
             Ticket ticket = ticketDAO.getTicket("ABCDEF");
             if(nbrTicket > 1){

@@ -1,4 +1,9 @@
 -------------------------------------------------------------------------------
 Test set: com.parkit.parkingsystem.integration.ParkingDataBaseIT
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.611 s - in com.parkit.parkingsystem.integration.ParkingDataBaseIT
+Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 6.099 s <<< FAILURE! - in com.parkit.parkingsystem.integration.ParkingDataBaseIT
+testParkingLotExitRecurringUser  Time elapsed: 3.657 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <3> but was: <2>
+	at com.parkit.parkingsystem.integration.ParkingDataBaseIT.testParkingACar(ParkingDataBaseIT.java:98)
+	at com.parkit.parkingsystem.integration.ParkingDataBaseIT.testParkingLotExitRecurringUser(ParkingDataBaseIT.java:141)
+

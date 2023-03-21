@@ -6,6 +6,7 @@ import com.parkit.parkingsystem.model.Ticket;
 public class FareCalculatorService {
     
     public void calculateFare(Ticket ticket, boolean discount){
+        //change hour in milisecond for not have ticket hour in negative
         if( (ticket.getOutTime().getTime() == 0) || (ticket.getOutTime().getTime() < (ticket.getInTime().getTime())) ){
             throw new IllegalArgumentException("Out time provided is incorrect:"+ticket.getOutTime().toString());
         }
@@ -14,14 +15,15 @@ public class FareCalculatorService {
         long durationSecond = ((outHour - intHour )/ 1000 );
         float durationMinute = (float)durationSecond/ 60;
         float duration = durationMinute / 60;
-        //double discountPrice =  0.05 * ticket.getPrice();
 
+        //free less 30 minutes
         if(duration < 0.5){
           
            ticket.setPrice(0);
 
         }else{
             if(discount == true ){
+                //discount 5%
                 switch (ticket.getParkingSpot().getParkingType()){
                     case CAR: {
                         ticket.setPrice(0.95*(duration * Fare.CAR_RATE_PER_HOUR));
