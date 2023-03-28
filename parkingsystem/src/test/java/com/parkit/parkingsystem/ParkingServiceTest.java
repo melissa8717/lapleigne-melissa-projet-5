@@ -79,7 +79,12 @@ public class ParkingServiceTest {
 
     @Test
     public void testProcessIncomingVehicle(){
+        when(inputReaderUtil.readSelection()).thenReturn(1);
+        when(parkingSpotDAO.getNextAvailableSlot(any())).thenReturn(1);
         parkingService.processIncomingVehicle();
+        verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
+        verify(ticketDAO, Mockito.times(1)).getNbTicket(anyString());
+        verify(ticketDAO, Mockito.times(1)).saveTicket(any(Ticket.class));
     }
 
     @Test
@@ -104,8 +109,7 @@ public class ParkingServiceTest {
     @Test
     public void testGetNextParkingNumberIfAvailableParkingNumberNotFound(){
         parkingService.getNextParkingNumberIfAvailable();
-        parkingSpot = new ParkingSpot(0,ParkingType.CAR, true);
-   
+        parkingSpot = new ParkingSpot(0,ParkingType.CAR, true);   
     }
     @Test
     public void testGetNextParkingNumberIfAvailableParkingNumberWrongArgument(){

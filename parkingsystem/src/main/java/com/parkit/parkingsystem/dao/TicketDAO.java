@@ -88,7 +88,7 @@ public class TicketDAO {
     }
 
     public int getNbTicket(String vehicleRegNumber){
-       //
+
        Connection con = null;
        int nbrTicket = 0;
         try {
